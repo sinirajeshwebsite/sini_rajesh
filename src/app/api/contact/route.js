@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-// Default recipient fallback (strictly driven by environment variables)
-const DEFAULT_RECIPIENT_EMAILS = [];
+// Default recipient fallback
+const DEFAULT_RECIPIENT_EMAILS = ["connect@sinirajesh.com"];
+const DEFAULT_CC_EMAILS = ["sinirajeshwebsite@gmail.com"];
 
 // Fallback FormSubmit token if SMTP is not configured
 const FORMSUBMIT_TOKEN = "0d301ed05ffe056a530f5320794928cc";
@@ -63,7 +64,7 @@ export async function POST(request) {
         .split(/[,;]+/)
         .map((e) => e.trim())
         .filter(Boolean)
-      : [];
+      : DEFAULT_CC_EMAILS;
 
     const recipientEmail = recipientList.length > 0 ? recipientList.join(", ") : (smtpUser || "");
     console.log("Contact API -> Resolved recipients:", recipientList, "CC:", ccList);

@@ -58,9 +58,9 @@ const COUNTRY_CODES = [
 ];
 
 // FormSubmit.co Recipient Email / Secure Token
-const RECIPIENT_EMAIL = "0d301ed05ffe056a530f5320794928cc";
+const RECIPIENT_EMAIL = "connect@sinirajesh.com";
 // If you want to add multiple recipient emails later, add them comma-separated here (e.g. "email2@gmail.com, email3@gmail.com"):
-const CC_EMAILS = "";
+const CC_EMAILS = "sinirajeshwebsite@gmail.com";
 
 export default function ContactForm() {
   // Form State
@@ -253,8 +253,8 @@ export default function ContactForm() {
             ? `${formData.countryCode} ${formData.phone.trim()}`
             : "Not provided";
 
-          const recipientEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
-          const ccEmail = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL;
+          const recipientEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "connect@sinirajesh.com";
+          const ccEmail = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "sinirajeshwebsite@gmail.com";
 
           if (!recipientEmail) {
             throw new Error("Recipient email is not configured in environment variables.");
@@ -325,7 +325,7 @@ export default function ContactForm() {
         });
       } else {
         throw new Error(
-          "Unable to send message right now. Please email us directly at manjunath.cojective@gmail.com"
+          "Unable to send message right now. Please email us directly at connect@sinirajesh.com"
         );
       }
     } catch (err) {
