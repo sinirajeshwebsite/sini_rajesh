@@ -29,78 +29,91 @@ const TESTIMONIALS = [
     role: "Professor & DBA Coach",
     quote: "Dr. Sini Rajesh is an extraordinary mentor and sounding board. Her workshops ignite real, lasting change.",
     rating: "5.0",
+    image: "/images/testimonials/dr-bhawna-nigam.webp",
   },
   {
     name: "Jyothi Kumar",
     role: "Sr. Manager HR at Celstream Technologies",
     quote: "Sini has the rare ability to connect mindset work with real-world results. After her coaching, I not only experienced personal growth but also became more effective as a leader in my organization.",
-    rating: "4.9",
+    rating: "5.0",
+    image: "/images/testimonials/jyothi-kumar.webp",
   },
   {
     name: "Preenand Premacharan",
     role: "ED & CEO at Hebron",
     quote: "Dr. Sini’s strategic counsel on board dynamics and leadership succession has been invaluable to our enterprise.",
     rating: "5.0",
+    image: "/images/testimonials/preenand-premacharan.webp",
   },
   {
     name: "Satish N",
     role: "Co-Founder & Director at Opt IT Technologies",
     quote: "Transformative coaching that goes far beyond surface-level advice. It shifted how I see myself and my business.",
-    rating: "4.8",
+    rating: "5.0",
+    image: "/images/testimonials/satish-narule.webp",
   },
   {
     name: "Nanaiah Appanna",
     role: "Head of Business Development at Lodestar 3D",
     quote: "Incredible depth and pragmatic wisdom. Sini brings a rare combination of empathy and strategic acumen.",
     rating: "4.9",
+    image: "/images/testimonials/nanaiah-appanna.webp",
   },
   {
     name: "Mini Thomas",
     role: "Principal, St. Joseph's College",
     quote: "Dr. Sini helped me see my potential in a way I hadn't before. Her guidance gave me the confidence to overcome my doubts and a clearer sense of direction in both my life and career.",
     rating: "5.0",
+    image: "/images/testimonials/mini-thomas.webp",
   },
   {
     name: "Santhosh Mogili",
     role: "Founder & CTO at Opt IT Technologies",
     quote: "Working with Dr. Sini Rajesh gave our executive team the clarity and alignment we need during high-growth scaling.",
-    rating: "4.9",
+    rating: "5.0",
+    image: "/images/testimonials/santhosh-mogili.webp",
   },
   {
     name: "Bhakti Vij",
     role: "Global HR Director at Widas Group",
     quote: "Sini is not just a coach, she is a mentor who genuinely cares. Her warmth, wisdom, and positive energy make every interaction inspiring. She has been a huge support in my growth journey.",
     rating: "5.0",
+    image: "/images/testimonials/bhakti-vij.webp",
   },
   {
     name: "Thrishala",
     role: "HR Head at Opt IT Technologies",
     quote: "Working with Sini completely shifted how I see challenges and opportunities. Instead of feeling stuck, I now feel empowered to take action. Her coaching has been one of the best investments in myself.",
-    rating: "4.8",
+    rating: "5.0",
+    image: "/images/testimonials/thrishala-n.webp",
   },
   {
     name: "Rachana Upadhyay",
     role: "Entrepreneur",
     quote: "What I love about Dr. Sini’s coaching is that it’s not just theory—she gives you practical tools you can apply immediately. Her sessions are powerful, engaging, and leave you with actionable strategies to create real change.",
     rating: "5.0",
+    image: "/images/testimonials/rachana-upadhyay.webp",
   },
   {
     name: "Ajith George",
     role: "Group Product Supervisor at Molex",
     quote: "Sini’s sessions are life-changing. She doesn’t just coach you for success; she coaches you for happiness. I feel more fulfilled, balanced, and at peace with myself after working with her.",
     rating: "4.9",
+    image: "/images/testimonials/ajith-george.webp",
   },
   {
     name: "Akash Indrabab",
     role: "Service Portfolio Manager at Opt IT Technologies",
     quote: "In just a few sessions, Sini helped me achieve breakthroughs I had been struggling with for years. Her ability to guide you gently yet firmly towards transformation is remarkable.",
-    rating: "4.9",
+    rating: "5.0",
+    image: "/images/testimonials/akash-indrabab.webp",
   },
   {
     name: "Lakshitha M.N",
     role: "Student - Bachelor of Arts, St. Joseph’s University",
     quote: "Dr. Sini helped me identify the limiting beliefs that were holding me back for years. With her guidance, I was able to reframe my thinking and take steps I never thought possible.",
     rating: "5.0",
+    image: "/images/testimonials/lakshitha-mn.webp",
   },
 ];
 
@@ -280,15 +293,27 @@ export default function Testimonials() {
                     id={`testimonial-author-footer-${index}`}
                     className="flex items-center w-full gap-[clamp(10px,1vw,15px)] pt-[clamp(6px,0.7vw,10px)]"
                   >
-                    {/* Testimonial Monogram Initials Avatar */}
-                    <div
-                      className={`relative shrink-0 w-[clamp(38px,2.9vw,44px)] h-[clamp(38px,2.9vw,44px)] rounded-full flex items-center justify-center font-sans font-semibold text-[clamp(13px,1vw,15px)] tracking-wider shadow-sm select-none ${
-                        AVATAR_PALETTE[index % AVATAR_PALETTE.length].bg
-                      } text-white`}
-                      aria-hidden="true"
-                    >
-                      {getInitials(item.name)}
-                    </div>
+                    {/* Testimonial Avatar */}
+                    {item.image ? (
+                      <div className="relative shrink-0 w-[clamp(38px,2.9vw,44px)] h-[clamp(38px,2.9vw,44px)] rounded-full overflow-hidden shadow-sm border border-[#D07578]/25 bg-[#F5EDE6]">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="44px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`relative shrink-0 w-[clamp(38px,2.9vw,44px)] h-[clamp(38px,2.9vw,44px)] rounded-full flex items-center justify-center font-sans font-semibold text-[clamp(13px,1vw,15px)] tracking-wider shadow-sm select-none ${
+                          AVATAR_PALETTE[index % AVATAR_PALETTE.length].bg
+                        } text-white`}
+                        aria-hidden="true"
+                      >
+                        {getInitials(item.name)}
+                      </div>
+                    )}
 
                     {/* Author Metadata */}
                     <div
