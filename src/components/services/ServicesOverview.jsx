@@ -8,15 +8,15 @@ import Button from "@/components/ui/Button";
 
 export const SERVICES = [
   {
-    id: "organisational-diagnostic-study",
-    slug: "organisational-diagnostic-study",
+    id: "organisational-development",
+    slug: "organisational-development",
     title: "Organisation Development",
     category: "Diagnostic & Systems",
     tagline: "Culture & Leadership",
     description:
       "Comprehensive diagnostic studies to uncover underlying dynamics, align human systems, and drive lasting cultural change.",
     image: "/images/organization-development-card.webp",
-    href: "/services/organisational-diagnostic-study",
+    href: "/services/organisational-development",
     buttonLabel: "Explore Organisation Development",
   },
   {

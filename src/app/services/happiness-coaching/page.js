@@ -288,7 +288,7 @@ export default function HappinessCoachingPage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* Interventions Section (Brought from Organization Development)              */}
+      {/* Interventions Section (Brought from Organisation Development)              */}
       {/* ========================================================================= */}
       <section
         id="happiness-coaching-details-section"

@@ -34,11 +34,11 @@ const SERVICES_DATA = [
     badge: "Individual & Leadership",
   },
   {
-    id: "organization-development",
-    title: "Organization Development",
+    id: "organisation-development",
+    title: "Organisation Development",
     subtitle: "Culture, Change & High-Impact Human Systems",
     description:
-      "Holistic organizational interventions that align business strategy with human potential, cultivating high-trust cultures, psychological safety, and resilient team dynamics.",
+      "Holistic organisational interventions that align business strategy with human potential, cultivating high-trust cultures, psychological safety, and resilient team dynamics.",
     points: [
       "Culture Transformation & Change Management",
       "Team Alignment & Dynamics",

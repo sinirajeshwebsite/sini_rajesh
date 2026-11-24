@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 const SERVICE_OPTIONS = [
   "Coaching",
-  "Organization Development",
+  "Organisation Development",
   "HR Consultancy",
   "Happiness Coaching",
   "Mentoring",

@@ -5,7 +5,7 @@ import { LetsConnect } from "@/components/about";
 import Footer from "@/components/common/Footer";
 
 export const metadata = {
-  title: "Organization Development | Dr. Sini Rajesh",
+  title: "Organisation Development | Dr. Sini Rajesh",
   description: "Comprehensive organisational diagnostic studies to uncover underlying dynamics, align human systems, and drive lasting change.",
 };
 
@@ -66,13 +66,13 @@ const OD_CONNECT_POINTS = [
   },
 ];
 
-export default function OrganisationalDiagnosticStudyPage() {
+export default function OrganisationDevelopmentPage() {
   return (
     <main className="w-full min-h-screen bg-[#FEFEFE]">
       <PageHero
         card={true}
         heading="Services"
-        title="Organization Development"
+        title="Organisation Development"
         height="clamp(220px, 18.61vw, 268px)"
         cardClassName="!h-[clamp(220px,18.61vw,268px)] !min-h-[clamp(220px,18.61vw,268px)]"
         bgColor="bg-[#BA676A]"
@@ -142,7 +142,7 @@ export default function OrganisationalDiagnosticStudyPage() {
           >
             <img
               src="/images/organization-development.webp"
-              alt="Organization Development"
+              alt="Organisation Development"
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/photo:scale-105 hover:scale-105"
             />
           </div>
@@ -169,7 +169,7 @@ export default function OrganisationalDiagnosticStudyPage() {
           >
             <img
               src="/images/organization-development.webp"
-              alt="Organization Development"
+              alt="Organisation Development"
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/photo:scale-105 hover:scale-105"
             />
           </div>

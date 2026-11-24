@@ -4,6 +4,25 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/services/organisational-diagnostic-study",
+        destination: "/services/organisational-development",
+        permanent: true,
+      },
+      {
+        source: "/services/organisation-development",
+        destination: "/services/organisational-development",
+        permanent: true,
+      },
+      {
+        source: "/services/organization-development",
+        destination: "/services/organisational-development",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     const wpBase =
       process.env.NEXT_PUBLIC_WORDPRESS_URL ||

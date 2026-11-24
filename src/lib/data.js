@@ -7,9 +7,9 @@ export const navLinks = [
 
 export const SERVICES_LIST = [
   {
-    id: "organisational-diagnostic-study",
-    label: "Organization Development",
-    href: "/services/organisational-diagnostic-study",
+    id: "organisational-development",
+    label: "Organisation Development",
+    href: "/services/organisational-development",
   },
   {
     id: "coaching",
