@@ -37,7 +37,7 @@ export default function Philosophy() {
               alt="My Philosophy"
               fill
               priority
-              className="object-cover object-center transition-transform duration-700 hover:scale-105"
+              className="object-cover object-[30%_center] transition-transform duration-700 hover:scale-105"
               sizes="(max-width: 1279px) 50vw, 621px"
             />
           </motion.div>
@@ -146,7 +146,8 @@ export default function Philosophy() {
               alt="My Philosophy"
               fill
               priority
-              className="object-cover object-[80%_center]"
+              className="object-cover"
+              style={{ objectPosition: "20% center" }}
               sizes="(max-width: 767px) 94vw, (max-width: 1023px) 88vw, 621px"
             />
           </motion.div>

@@ -281,6 +281,10 @@
     text-align: center;
   }
 
+  .headerLogoOpen img {
+    filter: brightness(0) saturate(100%) invert(56%) sepia(35%) saturate(718%) hue-rotate(311deg) brightness(91%) contrast(87%);
+  }
+
   .headerLogoOpen .headerLogoTitle {
     color: #D07578 !important;
   }
@@ -472,6 +476,10 @@
     text-align: center;
     width: auto;
     height: auto;
+  }
+
+  .headerLogoOpen img {
+    filter: brightness(0) saturate(100%) invert(56%) sepia(35%) saturate(718%) hue-rotate(311deg) brightness(91%) contrast(87%);
   }
 
   .headerLogoTitle {

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -84,7 +85,7 @@ export default function HeaderNav({
             : className
           }`}
       >
-        {/* Brand Logo Lockup: Sini Rajesh with Igniting Mindz centered underneath */}
+        {/* Brand Logo: Logo Image */}
         <Link
           href="/"
           prefetch={false}
@@ -92,8 +93,16 @@ export default function HeaderNav({
           className={`${styles.headerLogo} ${isMenuOpen ? styles.headerLogoOpen : ""}`}
           aria-label="Dr. Sini Rajesh - Igniting Mindz"
         >
-          <span className={styles.headerLogoTitle}>Sini Rajesh</span>
-          <span className={styles.headerLogoSubtitle}>Igniting Mindz</span>
+          <div className="relative h-[53px] w-[83px] sm:h-[61px] sm:w-[95px] lg:h-[66px] lg:w-[103px] shrink-0">
+            <Image
+              src="/images/footer-logo.webp"
+              alt="Dr. Sini Rajesh - Igniting Mindz"
+              fill
+              priority
+              sizes="(max-width: 640px) 83px, (max-width: 1024px) 95px, 103px"
+              className="object-contain object-left transition-all duration-300"
+            />
+          </div>
         </Link>
 
         {/* Navigation Links & CTA Container */}

@@ -10,29 +10,59 @@ export default function HowCanIHelp() {
       className="relative w-full flex justify-center overflow-hidden bg-[#FEFEFE] px-[clamp(16px,4vw,60px)] xl:px-[clamp(24px,6.94vw,100px)]"
       aria-labelledby="help-heading"
     >
-      {/* Background Images & Gradient Overlay — Full Screen Bleed */}
-      <div className="absolute inset-0 pointer-events-none w-full h-full overflow-hidden">
-        {/* Desktop Background Image (1201px+) */}
-        <div className="hidden lg:block absolute inset-0 w-full h-full">
+      {/* Scoped Responsive Fluid Image Styles */}
+      <style>{`
+        .help-image-transform {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          transform-origin: center center;
+          will-change: transform;
+          /* Mobile (< 768px): Reference 425px -> x: -43px, y: -178px, zoom: 1.79 */
+          transform: translate3d(
+            clamp(-80px, calc(-43 * 100vw / 425), -30px),
+            clamp(-280px, calc(-178 * 100vw / 425), -130px),
+            0
+          ) scale(1.79);
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .help-image-transform {
+            /* Tablet (768px - 1024px): Reference 768px -> x: -7px, y: -209px, zoom: 1.82 */
+            transform: translate3d(
+              clamp(-15px, calc(-7 * 100vw / 768), 0px),
+              clamp(-285px, calc(-209 * 100vw / 768), -195px),
+              0
+            ) scale(1.82);
+          }
+        }
+
+        @media (min-width: 1025px) {
+          .help-image-transform {
+            /* Desktop (1025px+): Reference 1440px -> x: -403px, y: -132px, zoom: 1.99 */
+            transform: translate3d(
+              clamp(-550px, calc(-403 * 100vw / 1440), -280px),
+              clamp(-185px, calc(-132 * 100vw / 1440), -90px),
+              0
+            ) scale(1.99);
+          }
+        }
+      `}</style>
+
+      {/* Background Image Canvas with Fluid Responsive Layout */}
+      <div className="absolute inset-0 z-0 overflow-hidden select-none">
+        <div className="help-image-transform select-none">
           <Image
-            src="/images/how-can-i-help-bg.webp"
+            src="/images/how-can-i-help.webp"
             alt="How Can I Help Background"
             fill
             priority
-            className="object-cover object-center scale-[1.15] -translate-x-[127px] translate-y-[24px]"
+            draggable={false}
+            className="object-cover object-center pointer-events-none select-none"
           />
         </div>
 
-        {/* Tablet & Mobile Background Image (< 1201px) */}
-        <div className="block lg:hidden absolute inset-0 w-full h-full overflow-hidden">
-          <Image
-            src="/images/how-can-i-help-tablet-bg.jpg"
-            alt="How Can I Help Background"
-            fill
-            priority
-            className="object-cover object-center"
-          />
-        </div>
         {/* Dual Gradient Overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -45,12 +75,12 @@ export default function HowCanIHelp() {
 
       <div
         id="help-container"
-        className="relative z-10 flex flex-col items-center justify-between md:block w-full max-w-[1240px] min-h-[720px] sm:min-h-[780px] md:min-h-[860px] lg:min-h-[740px] pt-[clamp(30px,4vw,60px)] pb-[clamp(40px,4vw+10px,60px)] lg:pt-[50px] lg:pb-[60px]"
+        className="relative z-10 flex flex-col items-center justify-between md:block w-full max-w-[1240px] min-h-[720px] sm:min-h-[780px] md:min-h-[860px] lg:min-h-[740px] pt-[clamp(30px,4vw,60px)] pb-[clamp(40px,4vw+10px,60px)] lg:pt-[50px] lg:pb-[60px] pointer-events-none"
       >
         {/* Content Container */}
         <div
           id="help-content-wrapper"
-          className="relative z-10 w-full h-full flex flex-col justify-between md:block"
+          className="relative z-10 w-full h-full flex flex-col justify-between md:block pointer-events-none"
         >
           {/* Heading Block */}
           <motion.div
@@ -59,7 +89,7 @@ export default function HowCanIHelp() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative -top-6 sm:-top-8 md:absolute md:top-[-6px] lg:top-[-6px] md:left-0 lg:left-0 w-full max-w-[387px] flex flex-col gap-2.5"
+            className="relative -top-6 sm:-top-8 md:absolute md:top-[-6px] lg:top-[-6px] md:left-0 lg:left-0 w-full max-w-[387px] flex flex-col gap-2.5 pointer-events-auto"
           >
             <div
               id="help-title-group"
@@ -102,7 +132,7 @@ export default function HowCanIHelp() {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="group/card relative mt-[clamp(130px,18vw,180px)] md:mt-0 md:absolute md:top-[420px] md:right-0 lg:top-[285px] lg:right-[-25px] xl:right-[-50px] lg:left-auto w-full max-w-[518px] h-auto flex flex-col justify-between gap-4 sm:gap-5 rounded-[12px] p-4 sm:p-5 bg-[#D07578]/50 backdrop-blur-[25px] cursor-default select-text"
+            className="group/card relative mt-[clamp(130px,18vw,180px)] md:mt-0 md:absolute md:top-[420px] md:right-0 lg:top-[285px] lg:right-[-25px] xl:right-[-50px] lg:left-auto w-full max-w-[518px] h-auto flex flex-col justify-between gap-4 sm:gap-5 rounded-[12px] p-4 sm:p-5 bg-[#D07578]/50 backdrop-blur-[25px] cursor-default select-text pointer-events-auto"
           >
             {/* Top Text in Glass Card */}
             <motion.div
@@ -176,6 +206,7 @@ export default function HowCanIHelp() {
           </motion.div>
         </div>
       </div>
+
     </section>
   );
 }

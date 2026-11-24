@@ -40,7 +40,6 @@ export default function PageHero({
   const heroTitle = title || "A Journey Shaped by Curiosity and People";
   const heroInfo = info || description;
   const isStacked = layout === "stacked" || infoPosition === "below";
-  const isInnerService = (heading === "Services" || badge === "Services") && !heroInfo;
 
   const [menuState, setMenuState] = useState({
     isMenuOpen: false,
@@ -242,11 +241,7 @@ export default function PageHero({
                 {/* 2. Page Hero Title (Fluid Clamp: 28px Mobile -> 38.4px Tablet 768px -> 41.3px 901px -> 52.86px Desktop) */}
                 {heroTitle && (
                   <h1
-                    className={`font-serif font-bold italic text-white cormorant-hero-heading ${
-                      isInnerService
-                        ? "text-[clamp(20px,2.2vw+12px,52.86px)] xl:!text-[52.86px] whitespace-nowrap max-w-full"
-                        : "text-[clamp(28px,2.15vw+21.9px,52.86px)] lg:!text-[52.86px]"
-                    } !leading-[100%] !tracking-[0%] m-0 !max-w-full !h-auto ${titleClassName}`}
+                    className={`font-serif font-bold italic text-white cormorant-hero-heading text-[clamp(28px,2.15vw+21.9px,52.86px)] lg:!text-[52.86px] !leading-[100%] !tracking-[0%] m-0 !max-w-full !h-auto ${titleClassName}`}
                     style={{
                       fontFamily: "'Cormorant Garamond', Georgia, serif",
                       fontWeight: 700,
