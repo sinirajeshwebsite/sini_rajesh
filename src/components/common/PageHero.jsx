@@ -221,7 +221,7 @@ export default function PageHero({
               <div
                 id="frame5"
                 className={`w-full min-w-0 max-w-full ${
-                  heroInfo ? "lg:max-w-[480px] xl:max-w-[520px] lg:shrink-0" : "max-w-none"
+                  heroInfo ? "lg:max-w-[480px] xl:max-w-[520px] lg:shrink-0" : "max-w-full"
                 } !h-auto flex flex-col justify-start gap-[clamp(12px,1vw+6px,24px)] ${leftBlockClassName}`}
                 style={leftBlockStyle}
               >

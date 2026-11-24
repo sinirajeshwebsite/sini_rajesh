@@ -73,8 +73,7 @@ export default function OrganisationDevelopmentPage() {
         card={true}
         heading="Services"
         title="Organisation Development"
-        titleClassName="whitespace-nowrap max-[420px]:whitespace-normal"
-        leftBlockClassName="!max-w-none"
+        titleClassName="sm:whitespace-nowrap max-sm:whitespace-normal"
         height="clamp(220px, 18.61vw, 268px)"
         cardClassName="!h-[clamp(220px,18.61vw,268px)] !min-h-[clamp(220px,18.61vw,268px)]"
         bgColor="bg-[#BA676A]"
