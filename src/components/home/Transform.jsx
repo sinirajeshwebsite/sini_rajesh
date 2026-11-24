@@ -31,7 +31,7 @@ const TRANSFORM_CARDS = [
   {
     id: "transform-card-organization",
     title: "Transform Your Organisation",
-    href: "/services/organisational-development",
+    href: "/services/organisation-development",
     image: "/images/transform-your-organization.webp",
     alt: "Transform Your Organisation",
     tags: "Organisation Development | HR Consulting | People & Culture",

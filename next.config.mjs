@@ -8,17 +8,17 @@ const nextConfig = {
     return [
       {
         source: "/services/organisational-diagnostic-study",
-        destination: "/services/organisational-development",
+        destination: "/services/organisation-development",
         permanent: true,
       },
       {
-        source: "/services/organisation-development",
-        destination: "/services/organisational-development",
+        source: "/services/organisational-development",
+        destination: "/services/organisation-development",
         permanent: true,
       },
       {
         source: "/services/organization-development",
-        destination: "/services/organisational-development",
+        destination: "/services/organisation-development",
         permanent: true,
       },
     ];
