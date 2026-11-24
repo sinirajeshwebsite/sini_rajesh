@@ -56,7 +56,7 @@ const TESTIMONIALS = [
     name: "Nanaiah Appanna",
     role: "Head of Business Development at Lodestar 3D",
     quote: "Incredible depth and pragmatic wisdom. Sini brings a rare combination of empathy and strategic acumen.",
-    rating: "4.9",
+    rating: "5.0",
     image: "/images/testimonials/nanaiah-appanna.webp",
   },
   {
@@ -98,7 +98,7 @@ const TESTIMONIALS = [
     name: "Ajith George",
     role: "Group Product Supervisor at Molex",
     quote: "Sini’s sessions are life-changing. She doesn’t just coach you for success; she coaches you for happiness. I feel more fulfilled, balanced, and at peace with myself after working with her.",
-    rating: "4.9",
+    rating: "5.0",
     image: "/images/testimonials/ajith-george.webp",
   },
   {
