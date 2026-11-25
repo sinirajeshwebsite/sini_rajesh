@@ -1,11 +1,153 @@
 "use client";
-import React from "react";
+import React, { useRef, useLayoutEffect, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+/* ---------- Face-safe image fit (<= 1024px and >= 1537px only) ----------
+   1025px - 1536px keeps the original CSS transform untouched (the approved 1440 look).
+   Everywhere else the CSS transform is used as the preferred position and is only
+   nudged (move / zoom) when a face would touch the text, the card, the edge of the
+   section, or sit under the white top/bottom fade. */
+const KEEP_CSS_MIN = 1025;
+const KEEP_CSS_MAX = 1536;
+const IMG_NW = 3714; // natural size of how-can-i-help.webp
+const IMG_NH = 2527;
+// head boxes as fractions of the image: [left, top, right, bottom]
+const FACES = [
+  [0.397, 0.487, 0.466, 0.555], // woman on the sofa
+  [0.571, 0.489, 0.608, 0.543], // woman in the armchair
+];
+// white fade height as a fraction of the section height
+const FADE_SMALL = { top: 0.2, bottom: 0.12 };    // <= 1024px (reduced, not removed)
+const FADE_DESKTOP = { top: 0.405, bottom: 0.235 }; // >= 1025px (original)
+// clearance tiers: tried in order until a clear position is found
+const FIT_TIERS = [
+  { gap: 20, white: 0.12, edge: 12 },
+  { gap: 12, white: 0.2, edge: 8 },
+  { gap: 4, white: 0.35, edge: 4 },
+  { gap: 0, white: 1, edge: 0 },
+];
+
+function helpRectIn(section, el) {
+  let x = 0, y = 0, n = el;
+  while (n && n !== section) {
+    x += n.offsetLeft;
+    y += n.offsetTop;
+    n = n.offsetParent;
+  }
+  return { x0: x, y0: y, x1: x + el.offsetWidth, y1: y + el.offsetHeight };
+}
+
+function helpReadCssTransform(el) {
+  el.style.transform = "";
+  const t = getComputedStyle(el).transform;
+  let z = 1, tx = 0, ty = 0;
+  const m = t && t !== "none" ? t.match(/matrix(3d)?\((.+)\)/) : null;
+  if (m) {
+    const n = m[2].split(",").map(parseFloat);
+    if (m[1]) { z = n[0]; tx = n[12]; ty = n[13]; }
+    else { z = n[0]; tx = n[4]; ty = n[5]; }
+  }
+  return { z, tx, ty };
+}
+
+function helpFadeAt(y, H, fade) {
+  return Math.max(
+    Math.max(0, 1 - y / (fade.top * H)),
+    Math.max(0, 1 - (H - y) / (fade.bottom * H))
+  );
+}
+
+function fitHelpImage(W, H, obstacles, pref, fade) {
+  const s0 = Math.max(W / IMG_NW, H / IMG_NH);
+  const cw0 = IMG_NW * s0, ch0 = IMG_NH * s0;
+
+  const facesAt = (z, tx, ty) =>
+    FACES.map(([u0, v0, u1, v1]) => ({
+      x0: W / 2 + z * (u0 - 0.5) * cw0 + tx, x1: W / 2 + z * (u1 - 0.5) * cw0 + tx,
+      y0: H / 2 + z * (v0 - 0.5) * ch0 + ty, y1: H / 2 + z * (v1 - 0.5) * ch0 + ty,
+    }));
+
+  const clear = (z, tx, ty, blocks, t) =>
+    facesAt(z, tx, ty).every((f) => {
+      if (f.x0 < t.edge || f.x1 > W - t.edge || f.y0 < t.edge || f.y1 > H - t.edge) return false;
+      if (blocks.some((b) => f.x0 < b.x1 && f.x1 > b.x0 && f.y0 < b.y1 && f.y1 > b.y0)) return false;
+      const w = Math.max(helpFadeAt(f.y0, H, fade), helpFadeAt((f.y0 + f.y1) / 2, H, fade), helpFadeAt(f.y1, H, fade));
+      return w <= t.white;
+    });
+
+  for (const t of FIT_TIERS) {
+    const blocks = obstacles.map((o) => ({
+      x0: o.x0 - t.gap, y0: o.y0 - t.gap, x1: o.x1 + t.gap, y1: o.y1 + t.gap,
+    }));
+    // the approved CSS position is kept whenever it is already clear
+    if (clear(pref.z, pref.tx, pref.ty, blocks, t)) return { ...pref, changed: false };
+
+    let best = null, bestC = Infinity;
+    for (let z = Math.max(1, pref.z * 0.6); z <= pref.z * 1.4; z += 0.02) {
+      const mx = Math.max(0, (z * cw0 - W) / 2), my = Math.max(0, (z * ch0 - H) / 2);
+      const xa = Math.max(-mx, pref.tx - 320), xb = Math.min(mx, pref.tx + 320);
+      const ya = Math.max(-my, pref.ty - 320), yb = Math.min(my, pref.ty + 320);
+      for (let tx = xa; tx <= xb; tx += 8) {
+        for (let ty = ya; ty <= yb; ty += 8) {
+          const c = Math.abs(tx - pref.tx) + Math.abs(ty - pref.ty) + (800 * Math.abs(z - pref.z)) / pref.z;
+          if (c >= bestC) continue;
+          if (clear(z, tx, ty, blocks, t)) { bestC = c; best = { z, tx, ty }; }
+        }
+      }
+    }
+    if (best) return { ...best, changed: true };
+  }
+  return { ...pref, changed: false };
+}
+
+function applyHelpImageFit(section, wrap, head, card) {
+  const vw = window.innerWidth;
+  if (vw >= KEEP_CSS_MIN && vw <= KEEP_CSS_MAX) { wrap.style.transform = ""; return; }
+  const pref = helpReadCssTransform(wrap);
+  const fade = vw >= KEEP_CSS_MIN ? FADE_DESKTOP : FADE_SMALL;
+  const r = fitHelpImage(
+    section.offsetWidth, section.offsetHeight,
+    [helpRectIn(section, head), helpRectIn(section, card)],
+    pref, fade
+  );
+  wrap.style.transform = r.changed
+    ? `translate3d(${r.tx.toFixed(1)}px, ${r.ty.toFixed(1)}px, 0) scale(${r.z.toFixed(3)})`
+    : "";
+}
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export default function HowCanIHelp() {
+  const sectionRef = useRef(null);
+  const imageRef = useRef(null);
+  const headingRef = useRef(null);
+  const cardRef = useRef(null);
+
+  // Measure the real text + card, then nudge the photo only where a face would be covered
+  useIsoLayoutEffect(() => {
+    const section = sectionRef.current;
+    const wrap = imageRef.current;
+    const head = headingRef.current;
+    const card = cardRef.current;
+    if (!section || !wrap || !head || !card) return;
+
+    const run = () => applyHelpImageFit(section, wrap, head, card);
+
+    run();
+    const ro = new ResizeObserver(() => requestAnimationFrame(run));
+    [section, head, card].forEach((el) => ro.observe(el));
+    window.addEventListener("resize", run);
+    document.fonts?.ready.then(run);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", run);
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="how-can-i-help-section"
       className="relative w-full flex justify-center overflow-hidden bg-[#FEFEFE] px-[clamp(16px,4vw,60px)] xl:px-[clamp(24px,6.94vw,100px)]"
       aria-labelledby="help-heading"
@@ -48,11 +190,28 @@ export default function HowCanIHelp() {
             ) scale(1.99);
           }
         }
+
+        /* White fade: mobile / tablet / 1024px keep it, but shorter so faces stay clear.
+           (top 20% / bottom 12% instead of 40.5% / 23.5%) */
+        .help-gradient {
+          background:
+            linear-gradient(180deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 20%),
+            linear-gradient(360deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 12%);
+        }
+
+        /* Desktop (>= 1025px): original fade, unchanged */
+        @media (min-width: 1025px) {
+          .help-gradient {
+            background:
+              linear-gradient(180deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 40.5%),
+              linear-gradient(360deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 23.5%);
+          }
+        }
       `}</style>
 
       {/* Background Image Canvas with Fluid Responsive Layout */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none">
-        <div className="help-image-transform select-none">
+        <div ref={imageRef} className="help-image-transform select-none">
           <Image
             src="/images/how-can-i-help.webp"
             alt="How Can I Help Background"
@@ -63,14 +222,8 @@ export default function HowCanIHelp() {
           />
         </div>
 
-        {/* Dual Gradient Overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(180deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 40.5%), linear-gradient(360deg, #FEFEFE 0%, rgba(193, 190, 179, 0) 23.5%)",
-          }}
-        />
+        {/* White fade overlay (top + bottom) */}
+        <div className="help-gradient absolute inset-0 pointer-events-none" />
       </div>
 
       <div
@@ -84,6 +237,7 @@ export default function HowCanIHelp() {
         >
           {/* Heading Block */}
           <motion.div
+            ref={headingRef}
             id="help-heading-block"
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -127,6 +281,7 @@ export default function HowCanIHelp() {
 
           {/* Glassmorphism Card */}
           <motion.div
+            ref={cardRef}
             id="help-glass-card"
             initial={{ opacity: 0, y: 35, scale: 0.98 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -210,4 +365,3 @@ export default function HowCanIHelp() {
     </section>
   );
 }
-

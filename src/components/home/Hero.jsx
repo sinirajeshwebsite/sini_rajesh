@@ -138,32 +138,39 @@ export default function Hero() {
           <span className="max-md:block max-md:whitespace-nowrap">Create Lasting Impact</span>
         </h1>
 
-        {/* Paragraph Description */}
-        <p
-          id="hero-description"
-          className="z-20 font-sans font-normal text-white m-0 
-            lg:absolute lg:left-[clamp(560px,62%,878px)] lg:top-[clamp(340px,34vw,482px)] lg:max-w-[clamp(320px,32%,458px)] lg:text-[clamp(13px,1.11vw,16px)] lg:leading-[125%] lg:indent-[clamp(2ch,3.5vw,5.5ch)] 
-            md:max-lg:absolute md:max-lg:left-[clamp(30px,5vw,50px)] md:max-lg:top-[clamp(630px,73vw,736px)] md:max-lg:max-w-[clamp(340px,55vw,494px)] md:max-lg:text-[clamp(14px,1.8vw,16px)] md:max-lg:leading-[135%] md:max-lg:indent-0 
-            max-md:relative max-md:mt-[clamp(8px,2.5vw,16px)] max-md:px-[clamp(16px,5vw,36px)] max-md:max-w-[96%] max-md:text-[clamp(11.5px,3.6vw,22px)] max-md:leading-[1.38] max-md:indent-0 max-md:text-white/95"
-        >
-          I inspire individuals, leaders, and organisations to discover their potential, gain clarity, prune limiting beliefs, and create meaningful transformation from the inside out.
-        </p>
-
-        {/* CTA Button: Let’s Talk */}
+        {/* Right Content Group: Description Paragraph & CTA Button */}
         <div
-          id="component4"
+          id="hero-content-right"
           className="z-20 
-            lg:absolute lg:left-[clamp(560px,62%,878px)] lg:top-[clamp(410px,40vw,565px)] lg:w-[134px] 
-            md:max-lg:absolute md:max-lg:left-[clamp(30px,5vw,50px)] md:max-lg:top-[clamp(710px,81vw,820px)] md:max-lg:w-[134px] 
-            max-md:relative max-md:my-[clamp(23px,7.5vw,46px)] max-md:px-[clamp(16px,5vw,36px)] max-md:w-fit"
+            lg:absolute lg:left-[clamp(560px,62%,878px)] lg:top-[clamp(340px,34vw,482px)] lg:max-w-[clamp(320px,32%,458px)] lg:flex lg:flex-col lg:gap-[clamp(20px,1.6vw,24px)] 
+            md:max-lg:absolute md:max-lg:left-[clamp(30px,5vw,50px)] md:max-lg:top-[clamp(630px,73vw,736px)] md:max-lg:max-w-[clamp(340px,55vw,494px)] md:max-lg:flex md:max-lg:flex-col md:max-lg:gap-[clamp(16px,2vw,20px)] 
+            max-md:contents"
         >
-          <Button
-            href="/contact"
-            ariaLabel="Let’s Talk"
-            className="w-[134px] max-md:!h-[clamp(32px,10vw,48px)] max-md:!min-h-[clamp(32px,10vw,48px)] max-md:!w-[clamp(108px,34vw,160px)] max-md:!text-[clamp(12px,3.75vw,18px)] max-md:!px-[clamp(8px,2.5vw,16px)]"
+          {/* Paragraph Description */}
+          <p
+            id="hero-description"
+            className="font-sans font-normal text-white m-0 
+              lg:text-[clamp(13px,1.11vw,16px)] lg:leading-[125%] lg:indent-[clamp(2ch,3.5vw,5.5ch)] 
+              md:max-lg:text-[clamp(14px,1.8vw,16px)] md:max-lg:leading-[135%] md:max-lg:indent-0 
+              max-md:relative max-md:mt-[clamp(8px,2.5vw,16px)] max-md:px-[clamp(16px,5vw,36px)] max-md:max-w-[96%] max-md:text-[clamp(11.5px,3.6vw,22px)] max-md:leading-[1.38] max-md:indent-0 max-md:text-white/95"
           >
-            Let’s Talk
-          </Button>
+            I inspire individuals, leaders, and organisations to discover their potential, gain clarity, prune limiting beliefs, and create meaningful transformation from the inside out.
+          </p>
+
+          {/* CTA Button: Let’s Talk */}
+          <div
+            id="component4"
+            className="w-[134px] 
+              max-md:relative max-md:my-[clamp(23px,7.5vw,46px)] max-md:px-[clamp(16px,5vw,36px)] max-md:w-fit"
+          >
+            <Button
+              href="/contact"
+              ariaLabel="Let’s Talk"
+              className="w-[134px] max-md:!h-[clamp(32px,10vw,48px)] max-md:!min-h-[clamp(32px,10vw,48px)] max-md:!w-[clamp(108px,34vw,160px)] max-md:!text-[clamp(12px,3.75vw,18px)] max-md:!px-[clamp(8px,2.5vw,16px)]"
+            >
+              Let’s Talk
+            </Button>
+          </div>
         </div>
 
         {/* Gradient Overlay */}
