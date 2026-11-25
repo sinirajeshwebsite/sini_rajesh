@@ -5,8 +5,8 @@ import nodemailer from "nodemailer";
 const DEFAULT_RECIPIENT_EMAILS = ["connect@sinirajesh.com"];
 const DEFAULT_CC_EMAILS = ["sinirajeshwebsite@gmail.com"];
 
-// Fallback FormSubmit token if SMTP is not configured
-const FORMSUBMIT_TOKEN = "0d301ed05ffe056a530f5320794928cc";
+// Verified FormSubmit token
+const FORMSUBMIT_TOKEN = "f2fc963e3d2668ac6b4f851204c00c90";
 
 export async function POST(request) {
   try {
@@ -269,7 +269,8 @@ export async function POST(request) {
       );
     }
 
-    const targetEndpoint = `https://formsubmit.co/ajax/${encodeURIComponent(primaryRecipient)}`;
+    const primaryTarget = FORMSUBMIT_TOKEN || encodeURIComponent(primaryRecipient);
+    const targetEndpoint = `https://formsubmit.co/ajax/${primaryTarget}`;
 
     const payload = {
       name: fullName,

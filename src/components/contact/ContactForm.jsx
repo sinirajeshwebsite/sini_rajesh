@@ -58,6 +58,7 @@ const COUNTRY_CODES = [
 ];
 
 // FormSubmit.co Recipient Email / Secure Token
+const FORMSUBMIT_TOKEN = "f2fc963e3d2668ac6b4f851204c00c90";
 const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "connect@sinirajesh.com";
 const CC_EMAILS = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "sinirajeshwebsite@gmail.com";
 
@@ -273,9 +274,10 @@ export default function ContactForm() {
             ...(ccEmail ? { _cc: ccEmail } : {}),
           };
 
+          const primaryTarget = FORMSUBMIT_TOKEN || encodeURIComponent(recipientEmail);
           const directPromises = [
             fetch(
-              `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
+              `https://formsubmit.co/ajax/${primaryTarget}`,
               {
                 method: "POST",
                 headers: {
