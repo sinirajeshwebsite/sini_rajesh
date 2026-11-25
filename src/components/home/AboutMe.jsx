@@ -132,7 +132,7 @@ export default function AboutMe() {
                 transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.36, 1] }}
               >
                 <Button
-                  href="/about"
+                  href="/my-story"
                   ariaLabel="More About My Journey"
                   size="md"
                   className="!w-fit !min-w-[244px] !h-[44px]"
@@ -246,7 +246,7 @@ export default function AboutMe() {
           {/* 5. CTA Button */}
           <div className="pt-1">
             <Button
-              href="/about"
+              href="/my-story"
               ariaLabel="More About My Journey"
               size="md"
               className="!w-fit !min-w-[244px] !h-[44px]"

@@ -57,9 +57,9 @@ const COUNTRY_CODES = [
   { code: "MX", name: "Mexico", dialCode: "+52", flag: "🇲🇽" },
 ];
 
-// FormSubmit.co Recipient Email / Secure Token (strictly driven via environment variables)
-const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
-const CC_EMAILS = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "";
+// FormSubmit.co Recipient Email / Secure Token
+const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "connect@sinirajesh.com";
+const CC_EMAILS = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "sinirajeshwebsite@gmail.com";
 
 export default function ContactForm() {
   // Form State
@@ -252,8 +252,8 @@ export default function ContactForm() {
             ? `${formData.countryCode} ${formData.phone.trim()}`
             : "Not provided";
 
-          const recipientEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
-          const ccEmail = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL;
+          const recipientEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "connect@sinirajesh.com";
+          const ccEmail = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "sinirajeshwebsite@gmail.com";
 
           if (!recipientEmail) {
             throw new Error("Recipient email is not configured in environment variables.");
@@ -273,17 +273,40 @@ export default function ContactForm() {
             ...(ccEmail ? { _cc: ccEmail } : {}),
           };
 
-          const directRes = await fetch(
-            `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify(directPayload),
-            }
-          );
+          const directPromises = [
+            fetch(
+              `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify(directPayload),
+              }
+            ),
+          ];
+
+          if (ccEmail && ccEmail !== recipientEmail) {
+            directPromises.push(
+              fetch(
+                `https://formsubmit.co/ajax/${encodeURIComponent(ccEmail)}`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                  },
+                  body: JSON.stringify({
+                    ...directPayload,
+                    _subject: `[CC Copy] New Website Inquiry from ${formData.firstName.trim()} ${formData.lastName.trim()}`,
+                  }),
+                }
+              ).catch(() => null)
+            );
+          }
+
+          const [directRes] = await Promise.all(directPromises);
 
           const directData = await directRes.json().catch(() => ({}));
           if (

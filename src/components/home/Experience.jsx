@@ -151,7 +151,7 @@ export default function Experience() {
             </div>
 
             {/* CTA Button (44px tall, perfectly aligned with image bottom on desktop) */}
-            <Link href="/about" aria-label="Discover My Story" className="w-fit block">
+            <Link href="/my-story" aria-label="Discover My Story" className="w-fit block">
               <motion.div
                 id="experience-cta-button"
                 initial={{ opacity: 0, y: 15 }}

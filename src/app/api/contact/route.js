@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-// Default recipient fallback (strictly driven by environment variables)
-const DEFAULT_RECIPIENT_EMAILS = [];
-const DEFAULT_CC_EMAILS = [];
+// Default recipient fallback
+const DEFAULT_RECIPIENT_EMAILS = ["connect@sinirajesh.com"];
+const DEFAULT_CC_EMAILS = ["sinirajeshwebsite@gmail.com"];
 
 // Fallback FormSubmit token if SMTP is not configured
 const FORMSUBMIT_TOKEN = "0d301ed05ffe056a530f5320794928cc";
@@ -287,17 +287,41 @@ export async function POST(request) {
       ...(combinedCc.length > 0 ? { _cc: combinedCc.join(", ") } : {}),
     };
 
-    console.log("Contact API -> Target endpoint:", targetEndpoint);
-    const formSubmitRes = await fetch(targetEndpoint, {
+    console.log("Contact API -> Target endpoint:", targetEndpoint, "CCs:", combinedCc);
+
+    const headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Origin: "https://sinirajesh.com",
+      Referer: sourceUrl || "https://sinirajesh.com/contact",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    };
+
+    // Deliver to primary recipient (with _cc)
+    const primaryPromise = fetch(targetEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-      },
+      headers,
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(8000),
     });
+
+    // Also dispatch directly to each CC recipient so delivery does not depend on FormSubmit's _cc confirmation
+    const ccPromises = combinedCc.map((ccEmail) =>
+      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(ccEmail)}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ...payload,
+          _subject: `[CC Copy] New Inquiry from ${fullName} - Dr. Sini Rajesh Website`,
+        }),
+        signal: AbortSignal.timeout(8000),
+      }).catch((err) => {
+        console.warn(`Direct delivery to CC ${ccEmail} failed:`, err?.message || err);
+        return null;
+      })
+    );
+
+    const [formSubmitRes] = await Promise.all([primaryPromise, ...ccPromises]);
 
     const formSubmitData = await formSubmitRes.json().catch(() => ({}));
     console.log("Contact API -> FormSubmit response:", formSubmitData);

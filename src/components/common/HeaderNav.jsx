@@ -22,7 +22,7 @@ export default function HeaderNav({
 
   // Route active flags: only non-home routes show active underline on desktop
   const isHome = false;
-  const isAbout = pathname === "/about" || pathname?.startsWith("/about");
+  const isAbout = pathname === "/my-story" || pathname?.startsWith("/my-story") || pathname === "/about" || pathname?.startsWith("/about");
   const isServices = pathname === "/services" || pathname?.startsWith("/services");
   const isBlogs = pathname === "/blogs" || pathname?.startsWith("/blogs");
 
@@ -121,7 +121,7 @@ export default function HeaderNav({
           </Link>
 
           <Link
-            href="/about"
+            href="/my-story"
             prefetch={false}
             id="nav-comp-10"
             className={`group ${styles.headerNavItem} ${styles.headerNavItemAbout} ${isAbout ? styles.headerNavItemActive : ""}`}
@@ -270,10 +270,10 @@ export default function HeaderNav({
               <span className={styles.mobileDrawerText}>Home</span>
             </Link>
             <Link
-              href="/about"
+              href="/my-story"
               prefetch={false}
               onClick={closeMenu}
-              className={`${styles.mobileDrawerItem} ${pathname?.startsWith("/about") ? styles.mobileDrawerItemActive : ""}`}
+              className={`${styles.mobileDrawerItem} ${pathname?.startsWith("/my-story") || pathname?.startsWith("/about") ? styles.mobileDrawerItemActive : ""}`}
             >
               <span className={styles.mobileDrawerText}>My Story</span>
             </Link>

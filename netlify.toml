@@ -26,7 +26,12 @@
 # Clean static URL rewrites (status = 200, ZERO 301 redirects for client-side router)
 [[redirects]]
   from = "/about"
-  to = "/about.html"
+  to = "/my-story"
+  status = 301
+
+[[redirects]]
+  from = "/my-story"
+  to = "/my-story.html"
   status = 200
 
 [[redirects]]

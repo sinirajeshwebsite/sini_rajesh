@@ -10,10 +10,14 @@ import { Badge } from "@/components/ui";
    FACE = hair-top to chin, left to right, as fractions of the image.
    Change IMG_W / IMG_H / FACE only if new-chapter.webp has a different size or crop. */
 const DESKTOP_MIN = 1025;
-const IMG_W = 1280;
+const IMG_W = 1536; // real pixel size of new-chapter.webp (was 1280 -> caused stretching)
 const IMG_H = 864;
-const FACE = { x0: 0.36, x1: 0.535, y0: 0.18, y1: 0.46 };
-const GAP = 24; // clear space (px) between face and text / card
+const FACE = { x0: 0.31, x1: 0.435, y0: 0.18, y1: 0.46 }; // tight hair-top to chin box
+const EDGE = 12; // min distance (px) between face and the section edges
+const MAX_ZOOM = 3;
+// [gap to text, gap to card] in px, tried in order. The text gap never shrinks below 24px,
+// only the card gap relaxes, so the heading/paragraph can never land on the face.
+const TIERS = [[32, 24], [24, 12], [24, 0], [24, -30], [24, -80], [24, -9999]];
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -31,27 +35,30 @@ const hit = (a, b) => a.x0 < b.x1 && a.x1 > b.x0 && a.y0 < b.y1 && a.y1 > b.y0;
 
 function fitImage(W, H, obstacles) {
   const cover = Math.max(W / IMG_W, H / IMG_H);
-  const blocks = obstacles.map((o) => ({
-    x0: o.x0 - GAP, y0: o.y0 - GAP, x1: o.x1 + GAP, y1: o.y1 + GAP,
-  }));
 
-  for (let z = 1; z <= 1.8; z += 0.05) {
-    const s = cover * z, w = IMG_W * s, h = IMG_H * s;
-    const cL = (W - w) / 2, cT = (H - h) / 2;
-    let best = null, bestD = Infinity;
-    for (let L = 0; L >= W - w - 0.5; L -= 8) {
-      for (let T = 0; T >= H - h - 0.5; T -= 8) {
-        const f = {
-          x0: L + FACE.x0 * w, x1: L + FACE.x1 * w,
-          y0: T + FACE.y0 * h, y1: T + FACE.y1 * h,
-        };
-        if (f.x0 < GAP || f.x1 > W - GAP || f.y0 < GAP || f.y1 > H - GAP) continue;
-        if (blocks.some((b) => hit(f, b))) continue;
-        const d = Math.abs(L - cL) + Math.abs(T - cT);
-        if (d < bestD) { bestD = d; best = { L, T, w, h }; }
+  for (const gaps of TIERS) {
+    const blocks = obstacles.map((o, i) => ({
+      x0: o.x0 - gaps[i], y0: o.y0 - gaps[i], x1: o.x1 + gaps[i], y1: o.y1 + gaps[i],
+    }));
+
+    for (let z = 1; z <= MAX_ZOOM; z += 0.05) {
+      const s = cover * z, w = IMG_W * s, h = IMG_H * s;
+      const cL = (W - w) / 2, cT = (H - h) / 2;
+      let best = null, bestD = Infinity;
+      for (let L = 0; L >= W - w - 0.5; L -= 8) {
+        for (let T = 0; T >= H - h - 0.5; T -= 8) {
+          const f = {
+            x0: L + FACE.x0 * w, x1: L + FACE.x1 * w,
+            y0: T + FACE.y0 * h, y1: T + FACE.y1 * h,
+          };
+          if (f.x0 < EDGE || f.x1 > W - EDGE || f.y0 < EDGE || f.y1 > H - EDGE) continue;
+          if (blocks.some((b) => hit(f, b))) continue;
+          const d = Math.abs(L - cL) + Math.abs(T - cT);
+          if (d < bestD) { bestD = d; best = { L, T, w, h }; }
+        }
       }
+      if (best) return best;
     }
-    if (best) return best;
   }
   const w = IMG_W * cover, h = IMG_H * cover;
   return { L: (W - w) / 2, T: (H - h) / 2, w, h };
@@ -142,7 +149,7 @@ export default function NewChapter() {
               height={IMG_H}
               priority
               draggable={false}
-              sizes="(max-width: 1440px) 100vw, 2000px"
+              sizes="(max-width: 1440px) 160vw, 2300px"
               className="pointer-events-none select-none"
               style={
                 pos
