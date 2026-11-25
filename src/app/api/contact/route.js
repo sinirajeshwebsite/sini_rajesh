@@ -298,31 +298,13 @@ export async function POST(request) {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
     };
 
-    // Deliver to primary recipient (with _cc)
-    const primaryPromise = fetch(targetEndpoint, {
+    // Deliver to FormSubmit token endpoint (with _cc)
+    const formSubmitRes = await fetch(targetEndpoint, {
       method: "POST",
       headers,
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(8000),
     });
-
-    // Also dispatch directly to each CC recipient so delivery does not depend on FormSubmit's _cc confirmation
-    const ccPromises = combinedCc.map((ccEmail) =>
-      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(ccEmail)}`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          ...payload,
-          _subject: `[CC Copy] New Inquiry from ${fullName} - Dr. Sini Rajesh Website`,
-        }),
-        signal: AbortSignal.timeout(8000),
-      }).catch((err) => {
-        console.warn(`Direct delivery to CC ${ccEmail} failed:`, err?.message || err);
-        return null;
-      })
-    );
-
-    const [formSubmitRes] = await Promise.all([primaryPromise, ...ccPromises]);
 
     const formSubmitData = await formSubmitRes.json().catch(() => ({}));
     console.log("Contact API -> FormSubmit response:", formSubmitData);

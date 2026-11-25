@@ -275,40 +275,17 @@ export default function ContactForm() {
           };
 
           const primaryTarget = FORMSUBMIT_TOKEN || encodeURIComponent(recipientEmail);
-          const directPromises = [
-            fetch(
-              `https://formsubmit.co/ajax/${primaryTarget}`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-                body: JSON.stringify(directPayload),
-              }
-            ),
-          ];
-
-          if (ccEmail && ccEmail !== recipientEmail) {
-            directPromises.push(
-              fetch(
-                `https://formsubmit.co/ajax/${encodeURIComponent(ccEmail)}`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                  },
-                  body: JSON.stringify({
-                    ...directPayload,
-                    _subject: `[CC Copy] New Website Inquiry from ${formData.firstName.trim()} ${formData.lastName.trim()}`,
-                  }),
-                }
-              ).catch(() => null)
-            );
-          }
-
-          const [directRes] = await Promise.all(directPromises);
+          const directRes = await fetch(
+            `https://formsubmit.co/ajax/${primaryTarget}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify(directPayload),
+            }
+          );
 
           const directData = await directRes.json().catch(() => ({}));
           if (
