@@ -58,7 +58,7 @@ const COUNTRY_CODES = [
 ];
 
 // FormSubmit.co Recipient Email / Secure Token
-const FORMSUBMIT_TOKEN = "f2fc963e3d2668ac6b4f851204c00c90";
+const FORMSUBMIT_TOKEN = "76101a024cfa6abaf5f3202c89e34adc";
 const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "connect@sinirajesh.com";
 const CC_EMAILS = process.env.NEXT_PUBLIC_CONTACT_CC_EMAIL || "sinirajeshwebsite@gmail.com";
 

@@ -6,7 +6,7 @@ const DEFAULT_RECIPIENT_EMAILS = ["connect@sinirajesh.com"];
 const DEFAULT_CC_EMAILS = ["sinirajeshwebsite@gmail.com"];
 
 // Verified FormSubmit token
-const FORMSUBMIT_TOKEN = "f2fc963e3d2668ac6b4f851204c00c90";
+const FORMSUBMIT_TOKEN = "76101a024cfa6abaf5f3202c89e34adc";
 
 export async function POST(request) {
   try {
