@@ -38,9 +38,39 @@ export const metadata = {
   ],
   authors: [{ name: "Dr. Sini Rajesh" }],
   icons: {
-    icon: "/images/logo-header.svg",
-    shortcut: "/images/logo-header.svg",
-    apple: "/images/logo-header.svg",
+    icon: [
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/images/logo-header.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  openGraph: {
+    title: "Dr. Sini Rajesh | Founder of Igniting Mindz",
+    description:
+      "Transform from Within, Grow with Clarity, Create Lasting Impact. Dr. Sini Rajesh - Mentor, HR Expert, Board Advisor, Organisation Development Specialist, Life Coach, Happypreneur.",
+    url: "https://sinirajesh.com",
+    siteName: "Dr. Sini Rajesh",
+    images: [
+      {
+        url: "/images/footer-logo.webp",
+        width: 1200,
+        height: 630,
+        alt: "Dr. Sini Rajesh - Igniting Mindz Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dr. Sini Rajesh | Founder of Igniting Mindz",
+    description:
+      "Transform from Within, Grow with Clarity, Create Lasting Impact.",
+    images: ["/images/footer-logo.webp"],
   },
 };
 

@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "Transform from Within, Grow with Clarity, Create Lasting Impact. Dr. Sini Rajesh - Mentor, HR Expert, Board Advisor, Organisation Development Specialist, Life Coach, Happypreneur.",
   url: "https://sinirajesh.com",
-  ogImage: "/images/portrait.webp",
+  ogImage: "/images/footer-logo.webp",
   links: {
     facebook: "https://www.facebook.com/share/1A6RGC7PUn/",
     linkedin: "http://www.linkedin.com/in/sini-rajesh",
