@@ -260,6 +260,12 @@ export default function ContactForm() {
             throw new Error("Recipient email is not configured in environment variables.");
           }
 
+          // Since FORMSUBMIT_TOKEN delivers directly to sinirajeshwebsite@gmail.com,
+          // _cc must contain connect@sinirajesh.com so both inboxes receive the inquiry:
+          const directCc = [recipientEmail, ccEmail]
+            .filter((e) => Boolean(e) && e.toLowerCase() !== "sinirajeshwebsite@gmail.com")
+            .join(", ") || "connect@sinirajesh.com";
+
           const directPayload = {
             name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
             email: formData.email.trim(),
@@ -271,7 +277,7 @@ export default function ContactForm() {
             _subject: `New Website Inquiry from ${formData.firstName.trim()} ${formData.lastName.trim()}`,
             _template: "table",
             _captcha: "false",
-            ...(ccEmail ? { _cc: ccEmail } : {}),
+            _cc: directCc,
           };
 
           const primaryTarget = FORMSUBMIT_TOKEN || encodeURIComponent(recipientEmail);

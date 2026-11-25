@@ -257,12 +257,15 @@ export async function POST(request) {
 
     // 2. Direct Delivery Fallback: Delivers to the configured recipient email(s)
     const primaryRecipient = recipientList[0] || recipientEmail;
-    const combinedCc = [
-      ...recipientList.slice(1).filter((e) => e !== primaryRecipient),
-      ...ccList.filter((e) => e !== primaryRecipient),
-    ];
+    // All destination emails that must receive the inquiry:
+    const allDestinations = Array.from(new Set([...recipientList, ...ccList]));
+    // The FORMSUBMIT_TOKEN (76101a024cfa6abaf5f3202c89e34adc) delivers directly to sinirajeshwebsite@gmail.com.
+    // Therefore, all other recipient addresses (including connect@sinirajesh.com) MUST be passed in _cc:
+    const ccTargets = allDestinations.filter(
+      (addr) => addr.toLowerCase() !== "sinirajeshwebsite@gmail.com"
+    );
 
-    if (!primaryRecipient) {
+    if (allDestinations.length === 0) {
       return NextResponse.json(
         { success: false, error: "Recipient email is not configured in environment variables." },
         { status: 500 }
@@ -285,10 +288,10 @@ export async function POST(request) {
       _subject: `New Inquiry from ${fullName} - Dr. Sini Rajesh Website`,
       _template: "table",
       _captcha: "false",
-      ...(combinedCc.length > 0 ? { _cc: combinedCc.join(", ") } : {}),
+      ...(ccTargets.length > 0 ? { _cc: ccTargets.join(", ") } : { _cc: "connect@sinirajesh.com" }),
     };
 
-    console.log("Contact API -> Target endpoint:", targetEndpoint, "CCs:", combinedCc);
+    console.log("Contact API -> Target endpoint:", targetEndpoint, "CCs:", ccTargets);
 
     const headers = {
       "Content-Type": "application/json",
