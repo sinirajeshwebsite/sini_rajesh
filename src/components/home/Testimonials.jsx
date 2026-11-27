@@ -242,7 +242,7 @@ export default function Testimonials() {
             {/* Marquee Track: Automatic Infinite Animation on Desktop (lg:), Touch/Swipe on Mobile & Tablet */}
             <div
               id="testimonials-carousel-track"
-              className="flex flex-row w-max desktop-marquee gap-[clamp(16px,1.67vw,24px)] px-4 lg:px-0"
+              className="flex flex-row items-stretch w-max desktop-marquee gap-[clamp(16px,1.67vw,24px)] px-4 lg:px-0"
               style={{
                 "--carousel-gap": "clamp(16px, 1.67vw, 24px)",
               }}
@@ -251,7 +251,7 @@ export default function Testimonials() {
                 <article
                   key={`${item.name}-${index}`}
                   id={`testimonial-card-${index}`}
-                  className="snap-start flex flex-col justify-between w-[clamp(260px,21vw,300px)] min-h-[310px] h-auto p-[clamp(16px,1.4vw,20px)] rounded-[clamp(10px,0.85vw,12px)] bg-[#FDF7F2] border border-transparent shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(208,117,120,0.12)] hover:border-[#D07578]/30 hover:-translate-y-1 transition-all duration-300 shrink-0 select-none"
+                  className="snap-start flex flex-col justify-between w-[clamp(280px,22vw,320px)] min-h-[320px] h-auto p-[clamp(16px,1.4vw,20px)] rounded-[clamp(10px,0.85vw,12px)] bg-[#FDF7F2] border border-transparent shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(208,117,120,0.12)] hover:border-[#D07578]/30 hover:-translate-y-1 transition-all duration-300 shrink-0 select-none"
                   aria-label={`Testimonial from ${item.name}`}
                 >
                   {/* Card Body: Rating & Quote */}
@@ -283,7 +283,7 @@ export default function Testimonials() {
                     </div>
 
                     {/* Testimonial Quote */}
-                    <p className="font-sans font-normal text-[clamp(13px,1vw,15px)] leading-[145%] text-[#141414] m-0 line-clamp-5">
+                    <p className="font-sans font-normal text-[clamp(13px,1vw,15px)] leading-[150%] text-[#141414] m-0">
                       {item.quote}
                     </p>
                   </div>
@@ -323,7 +323,7 @@ export default function Testimonials() {
                       <div className="font-sans font-semibold text-[clamp(13.5px,1vw,15.5px)] text-[#141414] leading-tight">
                         {item.name}
                       </div>
-                      <div className="font-sans font-normal text-[clamp(11.5px,0.85vw,13px)] text-[#141414]/75 leading-snug line-clamp-2 break-words">
+                      <div className="font-sans font-normal text-[clamp(11.5px,0.85vw,13px)] text-[#141414]/75 leading-snug break-words">
                         {item.role}
                       </div>
                     </div>
